@@ -3,6 +3,6 @@ from django.http.response import JsonResponse
 
 
 def fulfillment(request):
-    print(request.body)
+    print(request.JSON)
 
     return JsonResponse({})
