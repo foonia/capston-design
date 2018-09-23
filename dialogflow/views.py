@@ -1,16 +1,18 @@
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-
+from . import crawlings
 
 @csrf_exempt
 def fulfillment(request):
     print(request.JSON)
-    intend = request.JSON['result']['action']
+    action = request.JSON['result']['action']
     entities = request.JSON['result']['parameters']
 
-    print(intend)
-    for entity in entities:
-        print(entity)
+    action_func = getattr(crawlings, action, None)
+
+    if callable(action_func):
+        return action_func(**entities)
+
 
     return JsonResponse({})
 
