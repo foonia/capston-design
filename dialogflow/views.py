@@ -5,8 +5,8 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def fulfillment(request):
     print(request.JSON)
-    intend = request.JSON['action']
-    entities = request.JSON['parameters']
+    intend = request.JSON['result']['action']
+    entities = request.JSON['result']['parameters']
 
     print(intend)
     for entity in entities:
