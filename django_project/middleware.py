@@ -1,5 +1,6 @@
 import json
 
+from django.http.response import HttpResponse, JsonResponse
 from django.utils.deprecation import MiddlewareMixin
 
 
@@ -11,4 +12,10 @@ class JsonMiddleware(MiddlewareMixin):
                 request.JSON = json.loads(request.body)
 
     def process_response(self, request, response):
-        return response
+        if isinstance(response, str):
+            if response and response[0] in ('[', '{', '"'):
+                return HttpResponse(response, content_type='application/json')
+            return HttpResponse(response)
+
+        elif isinstance(response, (list, tuple, set, dict,)):
+            return JsonResponse(response)
