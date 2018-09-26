@@ -1,16 +1,16 @@
 from django.http.response import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from . import crawlings
+from . import actions
 
 @csrf_exempt
 def fulfillment(request):
     action = request.JSON['result']['action']
     entities = request.JSON['result']['parameters']
 
-    action_func = getattr(crawlings, action, None)
+    action_func = getattr(actions, action, None)
 
     if callable(action_func):
-        return action_func(**entities)
+        return {'speech': action_func(**entities)}
 
     return JsonResponse({'speech': '잘못된 입력입니다. 다시 시도해주세요.'})
 
