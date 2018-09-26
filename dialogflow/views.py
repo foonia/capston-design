@@ -4,7 +4,6 @@ from . import crawlings
 
 @csrf_exempt
 def fulfillment(request):
-    print(request.JSON)
     action = request.JSON['result']['action']
     entities = request.JSON['result']['parameters']
 
@@ -13,8 +12,12 @@ def fulfillment(request):
     if callable(action_func):
         return action_func(**entities)
 
+    return JsonResponse({'speech': '잘못된 입력입니다. 다시 시도해주세요.'})
 
-    return JsonResponse({})
+
+
+
+
 
 """
 
