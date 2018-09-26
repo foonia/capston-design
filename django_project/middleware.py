@@ -16,6 +16,6 @@ class JsonMiddleware(MiddlewareMixin):
             if response and response[0] in ('[', '{', '"'):
                 return HttpResponse(response, content_type='application/json')
             return HttpResponse(response)
-
         elif isinstance(response, (list, tuple, set, dict,)):
-            return JsonResponse(response)
+            return JsonResponse(response, safe=False)
+        return response
